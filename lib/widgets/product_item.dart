@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
-  const ProductItem(
-      {Key? key, required this.id, required this.title, required this.imageUrl})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-         onTap: () => Navigator.of(context).pushNamed(ProductDetailScreen.routeName,arguments: id),
+          onTap: () => Navigator.of(context)
+              .pushNamed(ProductDetailScreen.routeName, arguments: product.id),
           child: FadeInImage.assetNetwork(
             placeholder: 'assets/images/circle.gif',
-            image: imageUrl,
+            image: product.imageUrl,
             fit: BoxFit.cover,
           ),
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           title: Text(
-            title,
+            product.title,
             textAlign: TextAlign.center,
           ),
-          leading: IconButton(
-              onPressed: () => print('favorite'), icon: Icon(Icons.favorite)),
+          leading: Consumer<Product>(
+            builder: (BuildContext context, product, Widget? child) =>
+                IconButton(
+                    onPressed: () => product.toggleFavorite(),
+                    icon: Icon(
+                      product.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: Colors.red,
+                    )),
+          ),
           trailing: IconButton(
-              onPressed: () => print('Cart'), icon: Icon(Icons.shopping_cart)),
+              onPressed: () {
+                cart.addCart(product.id, product.title, product.price);
+              },
+              icon: Icon(Icons.shopping_cart)),
         ),
       ),
     );
