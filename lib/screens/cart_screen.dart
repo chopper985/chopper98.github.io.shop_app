@@ -21,7 +21,6 @@ class CartScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.title,
         ),
       ),
-      drawer: DrawerShop(),
       body: Column(
         children: [
           Expanded(

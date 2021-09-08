@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
@@ -41,6 +43,20 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
               onPressed: () {
                 cart.addCart(product.id, product.title, product.price);
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Added to Your Cart!'),
+                    duration: const Duration(seconds: 1),
+                    action: SnackBarAction(
+                      label: 'UNDO',
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        cart.undoItem(product.id);
+                      },
+                    ),
+                  ),
+                );
               },
               icon: Icon(Icons.shopping_cart)),
         ),

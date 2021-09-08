@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/order_screen.dart';
+import 'package:shop_app/screens/user_products_screen.dart';
 
 class DrawerShop extends StatelessWidget {
   const DrawerShop({Key? key}) : super(key: key);
@@ -10,7 +12,8 @@ class DrawerShop extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Hello Friend!'),
+            // ignore: deprecated_member_use
+            title: Text('Hello Friend!',style: Theme.of(context).textTheme.title,),
             automaticallyImplyLeading: false,
           ),
           Divider(),
@@ -18,7 +21,10 @@ class DrawerShop extends StatelessWidget {
             Navigator.of(context).pushReplacementNamed('/');
           },),
            ListTile(leading: Icon(Icons.payment),title: Text('Your Order'),onTap: (){
-            Navigator.of(context).pushReplacementNamed('/order-screen');
+            Navigator.of(context).pushReplacementNamed(OrderScreen.routeName);
+          },),
+          ListTile(leading: Icon(Icons.edit),title: Text('Manager Products'),onTap: (){
+            Navigator.of(context).pushReplacementNamed(UserProductsScreen.routeName);
           },)
         ],
       ),

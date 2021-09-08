@@ -12,7 +12,7 @@ class CartItem extends StatelessWidget {
     Key? key,
     required this.id,
     required this.title,
-        required this.productId,
+    required this.productId,
     required this.quantity,
     required this.price,
   }) : super(key: key);
@@ -23,8 +23,8 @@ class CartItem extends StatelessWidget {
       key: ValueKey(id),
       background: Container(
         padding: const EdgeInsets.only(right: 16),
-        alignment:  Alignment.centerRight,
-        color: Colors.red,
+        alignment: Alignment.centerRight,
+        color: Theme.of(context).errorColor,
         child: Icon(
           Icons.delete,
           color: Colors.white,
@@ -32,8 +32,33 @@ class CartItem extends StatelessWidget {
         ),
       ),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction){
-          Provider.of<Cart>(context,listen: false).removeItem(productId);
+      onDismissed: (direction) {
+        Provider.of<Cart>(context, listen: false).removeItem(productId);
+      },
+      confirmDismiss: (direction) {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                    title: Row(
+                      children: [
+                        Icon(Icons.notifications_active,color: Theme.of(context).errorColor,),
+                        SizedBox(width: 10,),
+                        Text('Are you sure?',style: TextStyle(color: Theme.of(context).errorColor,fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    content: Text('Do you want to remove the item from cart?'),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop(false);
+                          },
+                          child: Text('No')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop(true);
+                          },
+                          child: Text('Yes'))
+                    ]));
       },
       child: Card(
         margin: const EdgeInsets.symmetric(

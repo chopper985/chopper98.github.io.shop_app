@@ -38,7 +38,6 @@ class Products with ChangeNotifier {
     ),
   ];
 
-
   List<Product> get items {
     return [..._items];
   }
@@ -60,8 +59,31 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct() {
+  void updateProduct(String id, Product products) {
+    final index = _items.indexWhere((element) => element.id == id);
+    if (index >= 0) {
+      _items[index] = products;
+      notifyListeners();
+    } else {
+      print('tttt');
+    }
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
+  void addProduct(Product product) {
     // _items.add(value);
+    final newProduct = Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        imageUrl: product.imageUrl);
+
+    _items.add(newProduct);
     notifyListeners();
   }
 }
