@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 class CartItem {
   final String id;
   final String title;
-  final int quantity;
-  final double price;
+  final dynamic quantity;
+  final dynamic price;
 
   CartItem(
     this.id,
@@ -29,8 +29,7 @@ class Cart with ChangeNotifier {
     });
     return total;
   }
-
-  int get itemCount {
+  dynamic get itemCount {
     return _item!.length;
   }
 
@@ -39,7 +38,7 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void addCart(String productId, String title, double price) {
+  void addCart(String productId, String title, dynamic price) {
     if (_item!.containsKey(productId)) {
       _item!.update(
           productId,

@@ -13,7 +13,7 @@ class DrawerShop extends StatelessWidget {
         children: [
           AppBar(
             // ignore: deprecated_member_use
-            title: Text('Hello Friend!',style: Theme.of(context).textTheme.title,),
+            title: Text('Hello Friend!',style: Theme.of(context).textTheme.subtitle1,),
             automaticallyImplyLeading: false,
           ),
           Divider(),

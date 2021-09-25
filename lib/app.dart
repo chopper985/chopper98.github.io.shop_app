@@ -37,9 +37,9 @@ class _MyAppState extends State<MyApp> {
             canvasColor: Color.fromRGBO(240, 240, 230, 1),
             textTheme: ThemeData.light().textTheme.copyWith(
                   // ignore: deprecated_member_use
-                  body1: TextStyle(color: Color.fromRGBO(50, 20, 55, 1)),
+                  bodyText1: TextStyle(color: Color.fromRGBO(50, 20, 55, 1)),
                   // ignore: deprecated_member_use
-                  title: TextStyle(
+                  subtitle1: TextStyle(
                       fontFamily: 'RobotoCondensed',
                       fontSize: 20,
                       fontWeight: FontWeight.bold),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/drawer_app.dart';
 import 'package:shop_app/providers/cart.dart' show Cart;
 import 'package:shop_app/providers/order.dart';
 import 'package:shop_app/widgets/cart_item.dart';
@@ -18,7 +17,7 @@ class CartScreen extends StatelessWidget {
         title: Text(
           'My Cart',
           // ignore: deprecated_member_use
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.subtitle1,
         ),
       ),
       body: Column(
@@ -41,7 +40,10 @@ class CartScreen extends StatelessWidget {
               children: [
                 Text(
                   'Total:',
-                  style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
                 Chip(
@@ -62,17 +64,7 @@ class CartScreen extends StatelessWidget {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight)),
                   width: 100,
-                  child: TextButton(
-                    child: Text(
-                      'ORDER NOW',
-                      style: TextStyle(
-                          color: Colors.orange, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      Provider.of<Order>(context,listen: false).addOrder(cart.item.values.toList(),cart.totalPrice );
-                      cart.clearCart();
-                    },
-                  ),
+                  child: OrderButton(cart: cart),
                 ),
               ],
             ),
@@ -80,5 +72,49 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key? key,
+    required this.cart,
+  }) : super(key: key);
+
+  final Cart cart;
+
+  @override
+  State<OrderButton> createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  bool _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : TextButton(
+            child: Text(
+              'ORDER NOW',
+              style:
+                  TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+            ),
+            onPressed: (widget.cart.totalPrice <= 0 || _isLoading == true)
+                ? null
+                : () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await Provider.of<Order>(context, listen: false).addOrder(
+                        widget.cart.item.values.toList(),
+                        widget.cart.totalPrice);
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    widget.cart.clearCart();
+                  },
+          );
   }
 }

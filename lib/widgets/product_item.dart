@@ -38,6 +38,7 @@ class ProductItem extends StatelessWidget {
                           ? Icons.favorite
                           : Icons.favorite_border,
                       color: Colors.red,
+                      size:20
                     )),
           ),
           trailing: IconButton(
@@ -58,7 +59,7 @@ class ProductItem extends StatelessWidget {
                   ),
                 );
               },
-              icon: Icon(Icons.shopping_cart)),
+              icon: Icon(Icons.shopping_cart,size: 20)),
         ),
       ),
     );

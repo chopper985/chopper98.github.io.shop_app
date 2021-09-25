@@ -31,10 +31,9 @@ class ProductDetailScreen extends StatelessWidget {
         title: Text(
           productDetail.title,
           // ignore: deprecated_member_use
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.subtitle1
         ),
       ),
-      drawer: DrawerShop(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
